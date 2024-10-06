@@ -1,0 +1,5 @@
+What is the capital of France?,Paris|Berlin|Madrid|Rome,true|false|false|false
+What is 2+2?,3|4|5|6,false|true|false|false
+Which planets are known as gas giants?,Venus|Mars|Jupiter|Saturn,false|false|true|true
+Who wrote 'Hamlet'?,Shakespeare|Hemingway|Tolstoy|Dostoevsky,true|false|false|false
+Which programming languages are used for backend development?,Java|Python|HTML|C++,true|true|false|true

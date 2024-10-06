@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- Репозиторий для чтения вопросов из CSV -->
+    <bean id="questionRepository" class="org.example.repository.CsvQuestionRepository">
+        <constructor-arg value="classpath:questions.csv" />
+    </bean>
+
+    <!-- Сервис для загрузки вопросов с использованием репозитория -->
+    <bean id="questionService" class="org.example.service.QuestionServiceImpl">
+        <constructor-arg ref="questionRepository" />
+    </bean>
+
+    <bean id="ioService" class="org.example.service.ConsoleIOService" />
+
+    <!-- Сервис для проведения квиза с использованием QuestionService -->
+    <bean id="quizService" class="org.example.service.QuizServiceImpl">
+        <constructor-arg ref="questionService" />
+        <constructor-arg ref="ioService" />
+    </bean>
+
+
+</beans>
