@@ -1,5 +1,6 @@
 package org.example.repository;
 
+import lombok.RequiredArgsConstructor;
 import org.example.model.Question;
 import org.example.model.QuestionOption;
 import org.springframework.core.io.Resource;
@@ -12,38 +13,17 @@ import java.util.List;
 
 
 @Repository
+@RequiredArgsConstructor
 public class CsvQuestionRepository implements QuestionRepository {
 
     private final Resource csvResource;
-
-    public CsvQuestionRepository(Resource csvResource) {
-        this.csvResource = csvResource;
-    }
+    private final QuestionCsvParser csvParser;
 
     @Override
     public List<Question> findAll() throws Exception {
-        List<Question> questions = new ArrayList<>();
-
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(csvResource.getInputStream()))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-
-                String questionText = parts[0];
-                String[] optionTitles = parts[1].split("\\|");
-                String[] isCorrectArray = parts[2].split("\\|");
-
-                List<QuestionOption> options = new ArrayList<>();
-                for (int i = 0; i < optionTitles.length; i++) {
-                    boolean isCorrect = Boolean.parseBoolean(isCorrectArray[i]);
-                    options.add(new QuestionOption(optionTitles[i], isCorrect));
-                }
-
-                questions.add(new Question(questionText, options));
-            }
+            return csvParser.parse(reader);
         }
-
-        return questions;
     }
 
 }
